@@ -1,0 +1,90 @@
+[
+    {
+        "name": "Sweden",
+        "code": "SE",
+        "population": 10379295,
+        "subregion": "Northern Europe",
+        "language": "Swedish",
+        "Currency": "Swedish Krona"
+    },
+    {
+        "name": "Germany",
+        "code": "DE",
+        "population": 83149300,
+        "subregion": "Western Europe",
+        "language": "German",
+        "Currency": "Euro"
+    },
+    {
+        "name": "France",
+        "code": "FR",
+        "population": 67413000,
+        "subregion": "Western Europe",
+        "language": "French",
+        "Currency": "Euro"
+    },
+    {
+        "name": "Japan",
+        "code": "JP",
+        "population": 125960000,
+        "subregion": "Eastern Asia",
+        "language": "Japanese",
+        "Currency": "Japanese Yen"
+    },
+    {
+        "name": "Canada",
+        "code": "CA",
+        "population": 38930000,
+        "subregion": "Northern America",
+        "language": "English/French",
+        "Currency": "Canadian Dollar"
+    },
+    {
+        "name": "Brazil",
+        "code": "BR",
+        "population": 203080000,
+        "subregion": "South America",
+        "language": "Portuguese",
+        "Currency": "Brazilian Real"
+    },
+    {
+        "name": "India",
+        "code": "IN",
+        "population": 1417173173,
+        "subregion": "Southern Asia",
+        "language": "Hindi/English",
+        "Currency": "Indian Rupee"
+    },
+    {
+        "name": "Australia",
+        "code": "AU",
+        "population": 26870000,
+        "subregion": "Australia and New Zealand",
+        "language": "English",
+        "Currency": "Australian Dollar"
+    },
+    {
+        "name": "Egypt",
+        "code": "EG",
+        "population": 110990103,
+        "subregion": "Northern Africa",
+        "language": "Arabic",
+        "Currency": "Egyptian Pound"
+    },
+    {
+        "name": "South Korea",
+        "code": "KR",
+        "population": 51780000,
+        "subregion": "Eastern Asia",
+        "language": "Korean",
+        "Currency": "South Korean Won"
+    },
+    {
+        "name": "Norway",
+        "code": "NO",
+        "population": 5400000,
+        "subregion": "Northern Europe",
+        "language": "Norwegian",
+        "Currency": "Norwegian Krone"
+    }
+]
