@@ -24,6 +24,8 @@ const RandomQuote =  () => {
         fetchQuote()
     }, [])
 
+    
+
   return (
     <section className="flex flex-col items-center justify-center p-4 min-h-[300px]">
       {quote && (
