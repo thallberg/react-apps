@@ -1,0 +1,22 @@
+[
+  { "id": 1, "name": "Alice Andersson", "email": "alice@example.com" },
+  { "id": 2, "name": "Bob Berg", "email": "bob@example.com" },
+  { "id": 3, "name": "Charlie Claesson", "email": "charlie@example.com" },
+  { "id": 4, "name": "Diana Dahl", "email": "diana@example.com" },
+  { "id": 5, "name": "Erik Ek", "email": "erik@example.com" },
+  { "id": 6, "name": "Frida Fors", "email": "frida@example.com" },
+  { "id": 7, "name": "Gustav Gran", "email": "gustav@example.com" },
+  { "id": 8, "name": "Hanna Holm", "email": "hanna@example.com" },
+  { "id": 9, "name": "Isak Ingvarsson", "email": "isak@example.com" },
+  { "id": 10, "name": "Julia Jansson", "email": "julia@example.com" },
+  { "id": 11, "name": "Karl Karlsson", "email": "karl@example.com" },
+  { "id": 12, "name": "Linda Lind", "email": "linda@example.com" },
+  { "id": 13, "name": "Mikael Månsson", "email": "mikael@example.com" },
+  { "id": 14, "name": "Nina Norén", "email": "nina@example.com" },
+  { "id": 15, "name": "Oskar Ohlsson", "email": "oskar@example.com" },
+  { "id": 16, "name": "Petra Persson", "email": "petra@example.com" },
+  { "id": 17, "name": "Quentin Qvist", "email": "quentin@example.com" },
+  { "id": 18, "name": "Rebecca Ryd", "email": "rebecca@example.com" },
+  { "id": 19, "name": "Simon Ström", "email": "simon@example.com" },
+  { "id": 20, "name": "Tina Törnqvist", "email": "tina@example.com" }
+]

@@ -1,4 +1,3 @@
-import RandomQuote from "./randomquote/RandomQuote";
 
 
 function App() {
@@ -6,7 +5,7 @@ function App() {
 
   return (
     <>
-   <RandomQuote/>
+  
    </>
   );
 }
