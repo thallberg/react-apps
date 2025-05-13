@@ -84,7 +84,7 @@ export function Reactdaypicker({ showTime = true }: ReactdaypickerProps) {
     // };
 
     return (
-        <div className="flex flex-col items-center">
+        <div className="">
             <input
                 id={inputId}
                 type="text"
@@ -104,14 +104,16 @@ export function Reactdaypicker({ showTime = true }: ReactdaypickerProps) {
                 classNames={{
                     day: "text-gray-700 hover:bg-blue-100 focus:bg-blue-200",
                     selected: "bg-blue-500 !text-white",
-                    // weekday: "",
+                    weekday: "opacity-80 px-2 py-1 font-medium text-sm text-center uppercase",
                     // today: "",
                     week_number_header: "",
                     // week_number: "",
                     // month_caption: "",
                     nav: "",
-                    button_next: "absolute right-0 top-0 text-gray-600 hover:text-gray-800",
-                    button_previous: "text-gray-600 hover:text-gray-800",
+                    button_next: "absolute right-0 top-3 text-gray-600 hover:text-gray-800",
+                    button_previous: "absolute left-8 top-3 text-gray-600 hover:text-gray-800",
+                    month_caption: "flex flex-col items-center justify-between py-2",
+                    dropdowns: "flex flex-col items-center justify-between py-2 gap-2",
                 }}
                 mode="single"
                 selected={selectedDate}
@@ -119,7 +121,7 @@ export function Reactdaypicker({ showTime = true }: ReactdaypickerProps) {
                 components={{
                     // MonthCaption: CustomMonthHeader,
                     WeekNumberHeader: () => (
-                        <th>
+                        <th className="opacity-80 px-2 py-1 font-medium text-sm text-center uppercase">
                             V
                         </th>
                     ),
