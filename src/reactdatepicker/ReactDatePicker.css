@@ -1,0 +1,94 @@
+/* Exempel: datepicker.css */
+
+/* Huvudbehållare för hela kalendern */
+.react-datepicker {
+
+}
+
+/* Header med månad och år */
+.react-datepicker__header {
+ background-color: white!important;
+}
+
+/* Knapp för att byta månad */
+.react-datepicker__navigation {
+
+}
+
+.react-datepicker__navigation--previous {
+ 
+}
+
+.react-datepicker__navigation--next {
+   
+}
+
+/* Dagarna i kalendern */
+.react-datepicker__day {
+ 
+}
+
+.react-datepicker__day-name {
+    border-bottom: 2px solid #0833f0;
+ 
+}
+
+/* Markera dagens datum */
+.react-datepicker__day--today {
+    background-color: rgb(92, 171, 196); 
+}
+
+/* Markerad dag */
+.react-datepicker__day--selected {
+    background-color: #007bff; 
+   
+}
+
+/* Hovereffekt på dagar */
+.react-datepicker__day:hover {
+    background-color: #007bff!important; 
+}
+
+/* Årväljare */
+.react-datepicker__year-dropdown {
+   
+}
+
+/* Månadsväljare */
+.react-datepicker__month-dropdown {
+    background-color: #ffffff;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+/* Tidsfält (om du använder time input) */
+.react-datepicker__time-container {
+   
+}
+
+.react-datepicker__time {
+
+}
+
+/* Tidselement */
+.react-datepicker__time-box {
+ 
+}
+
+.react-datepicker__time-container {
+    margin: 0; /* Ta bort eventuell extra marginal */
+    padding: 0; /* Ta bort eventuell extra padding */
+    display: flex;
+    justify-content: center; /* Centrera innehållet horisontellt */
+    align-items: center; /* Centrera innehållet vertikalt */
+}
+
+.react-datepicker__input-time-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto; /* För att säkerställa att det centrerar sig på skärmen */
+    padding: 10px;
+}
+

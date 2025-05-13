@@ -1,28 +1,20 @@
 import { useId, useState, type ChangeEvent } from "react";
 import { format, isValid, parse, setHours, setMinutes } from "date-fns";
-import { DayPicker } from "react-day-picker";
+import {  DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 
-// Definiera ett interface för komponentens props
 interface ReactdaypickerProps {
-    showTime?: boolean; // Bestämmer om tiden ska visas i inputfältet
+    showTime?: boolean;
 }
 
-/** Render an input field bound to a DayPicker calendar. */
-export function Reactdaypicker({ showTime = false }: ReactdaypickerProps) {
+
+export function Reactdaypicker({ showTime = true }: ReactdaypickerProps) {
     const inputId = useId();
-
-    // Hold the month in state to control the calendar when the input changes
     const [month, setMonth] = useState(new Date());
-
-    // Hold the selected date in state
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
-
-    // Hold the input value in state
     const [inputValue, setInputValue] = useState<string>("");
     const [time, setTime] = useState<string>("12:00");
-
-    const formatString = showTime ? "MM/dd/yyyy HH:mm" : "MM/dd/yyyy"; // Date format with or without time
+    const formatString = showTime ? "MM/dd/yyyy HH:mm" : "MM/dd/yyyy";
 
     const handleDayPickerSelect = (date: Date | undefined) => {
         if (!date) {
@@ -31,7 +23,7 @@ export function Reactdaypicker({ showTime = false }: ReactdaypickerProps) {
         } else {
             const updated = showTime ? updateDateWithTime(date, time) : date;
             setSelectedDate(updated);
-            setMonth(updated);
+            setMonth(updated); // Uppdatera månaden här
             setInputValue(format(updated, formatString));
         }
     };
@@ -44,7 +36,7 @@ export function Reactdaypicker({ showTime = false }: ReactdaypickerProps) {
         if (isValid(parsed)) {
             const updated = showTime ? updateDateWithTime(parsed, time) : parsed;
             setSelectedDate(updated);
-            setMonth(updated);
+            setMonth(updated); // Uppdatera månaden här också
         } else {
             setSelectedDate(undefined);
         }
@@ -66,48 +58,84 @@ export function Reactdaypicker({ showTime = false }: ReactdaypickerProps) {
         return setMinutes(setHours(date, hours), minutes);
     };
 
+    // const CustomMonthHeader = ({ month, onNextMonth, onPreviousMonth }: any) => {
+    //     const validMonth = isValid(month) ? month : new Date();
+    //     const monthName = format(validMonth, "MMMM");
+
+    //     return (
+    //         <div className="flex justify-between items-center py-2">
+    //             <button
+    //                 onClick={onPreviousMonth}
+    //                 className="text-gray-600 hover:text-gray-800 text-xl"
+    //             >
+    //                 {`<`}
+    //             </button>
+    //             <span className="text-lg font-semibold">{monthName}</span>
+
+
+    //             <button
+    //                 onClick={onNextMonth}
+    //                 className="text-gray-600 hover:text-gray-800 text-xl"
+    //             >
+    //                 {`>`}
+    //             </button>
+    //         </div>
+    //     );
+    // };
+
     return (
-        <div>
-            <label htmlFor={inputId}>
-                <strong>Date: </strong>
-            </label>
+        <div className="flex flex-col items-center">
             <input
-                style={{ fontSize: "inherit" }}
                 id={inputId}
                 type="text"
                 value={inputValue}
                 placeholder={formatString}
                 onChange={handleInputChange}
+                className="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <DayPicker
                 month={month}
+                captionLayout="dropdown"
+                startMonth={new Date(2020, 1)}
+                endMonth={new Date(2030, 1)}
                 onMonthChange={setMonth}
+                weekStartsOn={1}
+                showWeekNumber
+                classNames={{
+                    day: "text-gray-700 hover:bg-blue-100 focus:bg-blue-200",
+                    selected: "bg-blue-500 !text-white",
+                    // weekday: "",
+                    // today: "",
+                    week_number_header: "",
+                    // week_number: "",
+                    // month_caption: "",
+                    nav: "",
+                    button_next: "absolute right-0 top-0 text-gray-600 hover:text-gray-800",
+                    button_previous: "text-gray-600 hover:text-gray-800",
+                }}
                 mode="single"
                 selected={selectedDate}
                 onSelect={handleDayPickerSelect}
-                footer={
-                    showTime ? (
-                        <div className="mt-2 space-y-1 text-sm text-gray-700">
-                            {selectedDate ? (
-                                <p>Selected: {selectedDate.toString()}</p>
-                            ) : (
-                                <p>No date selected</p>
-                            )}
-                            <div className="flex items-center gap-2">
-                                <label htmlFor="time" className="text-sm font-medium">
-                                    Time:
-                                </label>
-                                <input
-                                    id="time"
-                                    type="time"
-                                    value={time}
-                                    onChange={handleTimeChange}
-                                    className="border border-gray-300 rounded px-2 py-1 text-sm"
-                                />
-                            </div>
+                components={{
+                    // MonthCaption: CustomMonthHeader,
+                    WeekNumberHeader: () => (
+                        <th>
+                            V
+                        </th>
+                    ),
+                }}
+                footer={showTime ? (
+                    <div className="mt-2 space-y-1">
+                        <div className="flex items-center gap-2">
+                            <input
+                                type="time"
+                                value={time}
+                                onChange={handleTimeChange}
+                                className="border border-gray-300 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
                         </div>
-                    ) : undefined
-                }
+                    </div>
+                ) : undefined}
             />
         </div>
     );
