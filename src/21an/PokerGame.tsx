@@ -25,7 +25,7 @@ const PokerGame = () => {
   const handleStay = () => {
     setIsPlayerTurn(false);
 
-    let newDealerCards = [...dealerCards];
+    const newDealerCards = [...dealerCards];
     while (getTotal(newDealerCards) < 17) {
       newDealerCards.push(getRandomCard());
     }

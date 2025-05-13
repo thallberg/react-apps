@@ -125,11 +125,11 @@ const Movies = () => {
         </button>
       </form>
 
-      <div>
+      <div className="flex flex-row flex-wrap justify-center gap-4">
         {movies.map((movie) => (
           <div
             key={movie.id}
-            className="flex flex-col gap-2 p-4 border rounded-lg shadow-md bg-white mt-4"
+            className="gap-2 p-4 grid grid-cols-2 max-w-90 w-70 border rounded-lg shadow-md bg-white mt-4"
           >
             <h2 className="text-xl font-bold">{movie.title}</h2>
             <p>{movie.description}</p>
