@@ -84,7 +84,7 @@ export function Reactdaypicker({ showTime = true }: ReactdaypickerProps) {
     // };
 
     return (
-        <div className="">
+        <div className="flex flex-col items-center">
             <input
                 id={inputId}
                 type="text"
@@ -99,6 +99,7 @@ export function Reactdaypicker({ showTime = true }: ReactdaypickerProps) {
                 startMonth={new Date(2020, 1)}
                 endMonth={new Date(2030, 1)}
                 onMonthChange={setMonth}
+               
                 weekStartsOn={1}
                 showWeekNumber
                 classNames={{
@@ -114,6 +115,7 @@ export function Reactdaypicker({ showTime = true }: ReactdaypickerProps) {
                     button_previous: "absolute left-8 top-3 text-gray-600 hover:text-gray-800",
                     month_caption: "flex flex-col items-center justify-between py-2",
                     dropdowns: "flex flex-col items-center justify-between py-2 gap-2",
+                 
                 }}
                 mode="single"
                 selected={selectedDate}
@@ -127,7 +129,7 @@ export function Reactdaypicker({ showTime = true }: ReactdaypickerProps) {
                     ),
                 }}
                 footer={showTime ? (
-                    <div className="mt-2 space-y-1">
+                    <div className="mt-2 space-y-1 flex flex-col justify-center items-center">
                         <div className="flex items-center gap-2">
                             <input
                                 type="time"
