@@ -4,11 +4,12 @@ import { DayPicker } from "react-day-picker";
 import Holidays from "date-holidays";
 import "react-day-picker/style.css";
 
-interface ReactDayPickerProps {
-  showTime?: boolean;
+interface ReactdaypickerProps {
+    showTime?: boolean;
+    disableToday?: boolean;
 }
 
-export function ReactDayPicker({ showTime = true }: ReactDayPickerProps) {
+export function ReactDayPicker({ showTime = true }: ReactdaypickerProps) {
   const inputId = useId();
   const [month, setMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
@@ -67,105 +68,136 @@ export function ReactDayPicker({ showTime = true }: ReactDayPickerProps) {
     }
   };
 
-  // const CustomMonthHeader = ({ onPreviousClick, onNextClick, previousMonth, nextMonth }: NavProps) => {
-  //   const currentMonth = previousMonth ? addMonths(previousMonth, 1) : new Date();
-  //   return (
-  //     <div className="flex flex-col justify-center items-center py-2 gap-2">
-  //       <div className="flex items-center w-full space-x-16">
-  //         <button onClick={onPreviousClick} disabled={!previousMonth} className="text-xl text-blue-500">
-  //           {'<'}
-  //         </button>
-  //         <span className="text-3xl font-semibold">{format(currentMonth, 'MMMM')}</span>
-  //         <button onClick={onNextClick} disabled={!nextMonth} className="text-xl text-blue-500">
-  //           {'>'}
-  //         </button>
-  //       </div>
+    const updateDateWithTime = (date: Date, timeStr: string): Date => {
+        const [hours, minutes] = timeStr.split(":").map(Number);
+        return setMinutes(setHours(date, hours), minutes);
+    };
 
-  //       <div>
-  //         <button onClick={onPreviousClick} disabled={!previousMonth} className="">
-  //           {'<'}
-  //         </button>
-  //         <span className="text-lg font-semibold">{format(currentMonth, 'yyyy')}</span>
-  //         <button onClick={onNextClick} disabled={!nextMonth} className="">
-  //           {'>'}
-  //         </button>
-  //       </div>
-  //     </div>
-  //   );
-  // };
+    // const CustomMonthHeader = ({ month, onNextMonth, onPreviousMonth }: any) => {
+    //     const validMonth = isValid(month) ? month : new Date();
+    //     const monthName = format(validMonth, "MMMM");
 
-  return (
-    <div className="flex flex-col items-center">
-      <input
-        id={inputId}
-        type="text"
-        value={inputValue}
-        placeholder={formatString}
-        onChange={handleInputChange}
-        className="text-[--color-text-placeholder] border-2 border-[--color-border-default] p-2.5 outline-[--color-primary-blue] focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[--color-primary-blue] focus:ring-offset-1 rounded-sm"
-      />
-      <DayPicker
-        month={month}
-        captionLayout="dropdown"
-        startMonth={new Date(2020, 1)}
-        endMonth={new Date(2030, 1)}
-        onMonthChange={setMonth}
-        weekStartsOn={1}
-        showWeekNumber={true}
-        fixedWeeks={true}
-        showOutsideDays
-        modifiers={{
-          holiday: holidayDates,
-        }}
-        modifiersClassNames={{
-          holiday: "bg-red-300 text-white rounded-md",
-        }}
-        classNames={{
-          day: "text-gray-700 focus:bg-blue-200",
-          selected: "bg-blue-400 !text-white rounded-md",
-          week_number_header: "",
-          weekday: "opacity-80 font-medium text-sm text-center",
-          weekdays: "border-b-2 border-blue-500",
-          button_next:
-            "absolute right-14 top-3 text-gray-600 hover:text-gray-800",
-          button_previous:
-            "absolute left-14 top-3 text-gray-600 hover:text-gray-800",
-          month_caption: "flex flex-col items-center justify-between py-2",
-          dropdowns: "flex flex-col items-center justify-between py-2 gap-2",
-          nav: "",
-          footer: "flex item-center justify-center",
-          months: "flex flex-col justify-center items-center",
-          row: "first:pt-2",
-          day_button: "w-12 h-12",
-        }}
-        mode="single"
-        selected={selectedDate}
-        onSelect={handleDayPickerSelect}
-        components={{
-          WeekNumberHeader: () => (
-            <th className="opacity-80 px-2 py-1 font-medium text-sm text-center uppercase border-b-2 border-gray-300">
-              V
-            </th>
-          ),
-          // Nav: CustomMonthHeader,
-        }}
-        footer={
-          showTime ? (
-            <div className="mt-2 space-y-1">
-              <div className="">
-                <input
-                  type="time"
-                  value={time}
-                  onChange={handleTimeChange}
-                  className="text-[--color-text-placeholder] border-2 border-[--color-border-default] p-1.5 outline-[--color-primary-blue] focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[--color-primary-blue] focus:ring-offset-1 rounded-sm"
-                />
-              </div>
-            </div>
-          ) : undefined
-        }
-      />
-    </div>
-  );
+    //     return (
+    //         <div className="flex justify-between items-center py-2">
+    //             <button
+    //                 onClick={onPreviousMonth}
+    //                 className="text-gray-600 hover:text-gray-800 text-xl"
+    //             >
+    //                 {`<`}
+    //             </button>
+    //             <span className="text-lg font-semibold">{monthName}</span>
+
+
+    //             <button
+    //                 onClick={onNextMonth}
+    //                 className="text-gray-600 hover:text-gray-800 text-xl"
+    //             >
+    //                 {`>`}
+    //             </button>
+    //         </div>
+    //     );
+    // };
+
+    //       const isDateToday = (date: Date): boolean => {
+    //     const today = new Date();
+    //     return date.toDateString() === today.toDateString();
+    //   };
+
+    const redDays = [
+        new Date(2025, 0, 1),   // Nyårsdagen
+        new Date(2025, 3, 18),  // Långfredag (exempelår)
+        new Date(2025, 3, 20),  // Påskdagen
+        new Date(2025, 3, 21),  // Annandag påsk
+        new Date(2025, 4, 1),   // Första maj
+        new Date(2025, 5, 6),   // Sveriges nationaldag
+        new Date(2025, 11, 24), // Julafton
+        new Date(2025, 11, 25), // Juldagen
+        new Date(2025, 11, 26), // Annandag jul
+        new Date(2025, 11, 31), // Nyårsafton
+    ];
+
+
+
+    return (
+        <div className="flex flex-col items-center">
+            <input
+                id={inputId}
+                type="text"
+                value={inputValue}
+                placeholder={formatString}
+                onChange={handleInputChange}
+                className="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <DayPicker
+                month={month}
+                modifiers={{
+                    holiday: redDays,
+                    weekend: (date) => date.getDay() === 0 || date.getDay() === 6,
+                }}
+                modifiersClassNames={{
+                    holiday: "bg-red-100 text-red-700 font-semibold",
+                    weekend: "bg-gray-100 text-gray-500",
+                }}
+                
+                captionLayout="dropdown"
+                startMonth={new Date(2020, 1)}
+                endMonth={new Date(2030, 1)}
+                onMonthChange={setMonth}
+                //  disabled={disableToday ? (date) => isDateToday(date) : undefined}
+                disabled={
+                    (date) => {
+                        const today = new Date();
+                        const dateOnly = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+                        const todayOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+                        return disableToday && dateOnly <= todayOnly;
+                    }
+                }
+
+                weekStartsOn={1}
+                showWeekNumber
+                classNames={{
+                    day: "text-gray-700 hover:bg-blue-100 focus:bg-blue-200",
+                    selected: "bg-blue-500 !text-white",
+                    weekday: "opacity-80 px-2 py-1 font-medium text-sm text-center uppercase",
+                    // today: "",
+                    week_number_header: "",
+                    // week_number: "",
+                    // month_caption: "",
+                    nav: "",
+                    button_next: "absolute right-0 top-3 text-gray-600 hover:text-gray-800",
+                    button_previous: "absolute left-8 top-3 text-gray-600 hover:text-gray-800",
+                    month_caption: "flex flex-col items-center justify-between py-2",
+                    dropdowns: "flex flex-col items-center justify-between py-2 gap-2",
+
+                }}
+                
+                mode="single"
+                selected={selectedDate}
+                onSelect={handleDayPickerSelect}
+                components={{
+                    // MonthCaption: CustomMonthHeader,
+                    WeekNumberHeader: () => (
+                        <th className="opacity-80 px-2 py-1 font-medium text-sm text-center uppercase">
+                            V
+                        </th>
+                    ),
+                }}
+                footer={showTime ? (
+                    <div className="mt-2 space-y-1 flex flex-col justify-center items-center">
+                        <div className="flex items-center gap-2">
+                            <input
+                                type="time"
+                                value={time}
+                                onChange={handleTimeChange}
+                                className="border border-gray-300 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                        </div>
+                    </div>
+                ) : undefined}
+            />
+        </div>
+    );
 }
 
 export default ReactDayPicker;
