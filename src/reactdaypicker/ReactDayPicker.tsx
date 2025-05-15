@@ -10,112 +10,63 @@ interface ReactdaypickerProps {
 }
 
 export function ReactDayPicker({ showTime = true }: ReactdaypickerProps) {
-  const inputId = useId();
-  const [month, setMonth] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
-  const [inputValue, setInputValue] = useState<string>("");
-  const [time, setTime] = useState<string>("12:00");
-  const formatString = showTime ? "MM/dd/yyyy HH:mm" : "MM/dd/yyyy";
+    const inputId = useId();
+    const [month, setMonth] = useState(new Date());
+    const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+    const [inputValue, setInputValue] = useState<string>("");
+    const [time, setTime] = useState<string>("12:00");
+    const formatString = showTime ? "MM/dd/yyyy HH:mm" : "MM/dd/yyyy";
 
-  const hd = new Holidays("sv"); // eller vilket land du vill
-  const year = month.getFullYear();
-  const holidays = hd.getHolidays(year);
+    const hd = new Holidays("sv"); // eller vilket land du vill
+    const year = month.getFullYear();
+    const holidays = hd.getHolidays(year);
 
-  // Skapa en lista med datum-objekt (bara datum utan tid)
-  const holidayDates = holidays
-    .map((h) => new Date(h.date))
-    .filter((d) => d instanceof Date && !isNaN(d.getDate()));
-
-  const updateDateWithTime = (date: Date, timeStr: string): Date => {
-    const [hours, minutes] = timeStr.split(":").map(Number);
-    return setMinutes(setHours(date, hours), minutes);
-  };
-
-  const handleDayPickerSelect = (date: Date | undefined) => {
-    if (!date) {
-      setInputValue("");
-      setSelectedDate(undefined);
-    } else {
-      const updated = showTime ? updateDateWithTime(date, time) : date;
-      setSelectedDate(updated);
-      setMonth(updated);
-      setInputValue(format(updated, formatString));
-    }
-  };
-
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setInputValue(value);
-
-    const parsed = parse(value, formatString, new Date());
-    if (isValid(parsed)) {
-      const updated = showTime ? updateDateWithTime(parsed, time) : parsed;
-      setSelectedDate(updated);
-      setMonth(updated);
-    } else {
-      setSelectedDate(undefined);
-    }
-  };
-
-  const handleTimeChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const newTime = e.target.value;
-    setTime(newTime);
-
-    if (selectedDate && isValid(selectedDate)) {
-      const updated = updateDateWithTime(selectedDate, newTime);
-      setSelectedDate(updated);
-      setInputValue(format(updated, formatString));
-    }
-  };
+    // Skapa en lista med datum-objekt (bara datum utan tid)
+    const holidayDates = holidays
+        .map((h) => new Date(h.date))
+        .filter((d) => d instanceof Date && !isNaN(d.getDate()));
 
     const updateDateWithTime = (date: Date, timeStr: string): Date => {
         const [hours, minutes] = timeStr.split(":").map(Number);
         return setMinutes(setHours(date, hours), minutes);
     };
 
-    // const CustomMonthHeader = ({ month, onNextMonth, onPreviousMonth }: any) => {
-    //     const validMonth = isValid(month) ? month : new Date();
-    //     const monthName = format(validMonth, "MMMM");
+    const handleDayPickerSelect = (date: Date | undefined) => {
+        if (!date) {
+            setInputValue("");
+            setSelectedDate(undefined);
+        } else {
+            const updated = showTime ? updateDateWithTime(date, time) : date;
+            setSelectedDate(updated);
+            setMonth(updated);
+            setInputValue(format(updated, formatString));
+        }
+    };
 
-    //     return (
-    //         <div className="flex justify-between items-center py-2">
-    //             <button
-    //                 onClick={onPreviousMonth}
-    //                 className="text-gray-600 hover:text-gray-800 text-xl"
-    //             >
-    //                 {`<`}
-    //             </button>
-    //             <span className="text-lg font-semibold">{monthName}</span>
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setInputValue(value);
 
+        const parsed = parse(value, formatString, new Date());
+        if (isValid(parsed)) {
+            const updated = showTime ? updateDateWithTime(parsed, time) : parsed;
+            setSelectedDate(updated);
+            setMonth(updated);
+        } else {
+            setSelectedDate(undefined);
+        }
+    };
 
-    //             <button
-    //                 onClick={onNextMonth}
-    //                 className="text-gray-600 hover:text-gray-800 text-xl"
-    //             >
-    //                 {`>`}
-    //             </button>
-    //         </div>
-    //     );
-    // };
+    const handleTimeChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const newTime = e.target.value;
+        setTime(newTime);
 
-    //       const isDateToday = (date: Date): boolean => {
-    //     const today = new Date();
-    //     return date.toDateString() === today.toDateString();
-    //   };
-
-    const redDays = [
-        new Date(2025, 0, 1),   // Nyårsdagen
-        new Date(2025, 3, 18),  // Långfredag (exempelår)
-        new Date(2025, 3, 20),  // Påskdagen
-        new Date(2025, 3, 21),  // Annandag påsk
-        new Date(2025, 4, 1),   // Första maj
-        new Date(2025, 5, 6),   // Sveriges nationaldag
-        new Date(2025, 11, 24), // Julafton
-        new Date(2025, 11, 25), // Juldagen
-        new Date(2025, 11, 26), // Annandag jul
-        new Date(2025, 11, 31), // Nyårsafton
-    ];
-
+        if (selectedDate && isValid(selectedDate)) {
+            const updated = updateDateWithTime(selectedDate, newTime);
+            setSelectedDate(updated);
+            setInputValue(format(updated, formatString));
+        }
+    };
 
 
     return (
@@ -138,7 +89,7 @@ export function ReactDayPicker({ showTime = true }: ReactdaypickerProps) {
                     holiday: "bg-red-100 text-red-700 font-semibold",
                     weekend: "bg-gray-100 text-gray-500",
                 }}
-                
+
                 captionLayout="dropdown"
                 startMonth={new Date(2020, 1)}
                 endMonth={new Date(2030, 1)}
@@ -171,7 +122,7 @@ export function ReactDayPicker({ showTime = true }: ReactdaypickerProps) {
                     dropdowns: "flex flex-col items-center justify-between py-2 gap-2",
 
                 }}
-                
+
                 mode="single"
                 selected={selectedDate}
                 onSelect={handleDayPickerSelect}
