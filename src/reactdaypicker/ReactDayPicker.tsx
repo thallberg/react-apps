@@ -118,10 +118,13 @@ export function Reactdaypicker({ showTime = true, disableToday = false }: Reactd
                 month={month}
                 modifiers={{
                     holiday: redDays,
+                    weekend: (date) => date.getDay() === 0 || date.getDay() === 6,
                 }}
                 modifiersClassNames={{
                     holiday: "bg-red-100 text-red-700 font-semibold",
+                    weekend: "bg-gray-100 text-gray-500",
                 }}
+                
                 captionLayout="dropdown"
                 startMonth={new Date(2020, 1)}
                 endMonth={new Date(2030, 1)}
@@ -154,6 +157,7 @@ export function Reactdaypicker({ showTime = true, disableToday = false }: Reactd
                     dropdowns: "flex flex-col items-center justify-between py-2 gap-2",
 
                 }}
+                
                 mode="single"
                 selected={selectedDate}
                 onSelect={handleDayPickerSelect}
