@@ -6,10 +6,10 @@ import "react-day-picker/style.css";
 
 interface ReactdaypickerProps {
     showTime?: boolean;
-    disableToday?: boolean;
+
 }
 
-export function ReactDayPicker({ showTime = true }: ReactdaypickerProps) {
+export function ReactDayPicker({ showTime = true, }: ReactdaypickerProps) {
     const inputId = useId();
     const [month, setMonth] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
@@ -17,14 +17,23 @@ export function ReactDayPicker({ showTime = true }: ReactdaypickerProps) {
     const [time, setTime] = useState<string>("12:00");
     const formatString = showTime ? "MM/dd/yyyy HH:mm" : "MM/dd/yyyy";
 
-    const hd = new Holidays("sv"); // eller vilket land du vill
+    const hd = new Holidays("se"); 
     const year = month.getFullYear();
-    const holidays = hd.getHolidays(year);
+    const holidays = hd.getHolidays(year).filter((h) => h.type === "public");
 
-    // Skapa en lista med datum-objekt (bara datum utan tid)
-    const holidayDates = holidays
-        .map((h) => new Date(h.date))
-        .filter((d) => d instanceof Date && !isNaN(d.getDate()));
+    const holidayDates: Date[] = [];
+
+    for (let i = 0; i < holidays.length; i++) {
+        const h = holidays[i];
+        const date = new Date(h.date);
+
+        if (!isNaN(date.getTime())) {
+            holidayDates.push(date);
+        }
+    }
+
+    console.log(holidayDates.map(d => d.toDateString()));
+
 
     const updateDateWithTime = (date: Date, timeStr: string): Date => {
         const [hours, minutes] = timeStr.split(":").map(Number);
@@ -82,29 +91,15 @@ export function ReactDayPicker({ showTime = true }: ReactdaypickerProps) {
             <DayPicker
                 month={month}
                 modifiers={{
-                    holiday: redDays,
-                    weekend: (date) => date.getDay() === 0 || date.getDay() === 6,
+                    holiday: holidayDates,
                 }}
                 modifiersClassNames={{
                     holiday: "bg-red-100 text-red-700 font-semibold",
-                    weekend: "bg-gray-100 text-gray-500",
                 }}
-
                 captionLayout="dropdown"
                 startMonth={new Date(2020, 1)}
                 endMonth={new Date(2030, 1)}
                 onMonthChange={setMonth}
-                //  disabled={disableToday ? (date) => isDateToday(date) : undefined}
-                disabled={
-                    (date) => {
-                        const today = new Date();
-                        const dateOnly = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-                        const todayOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-
-                        return disableToday && dateOnly <= todayOnly;
-                    }
-                }
-
                 weekStartsOn={1}
                 showWeekNumber
                 classNames={{
