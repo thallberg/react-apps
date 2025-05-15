@@ -1,14 +1,15 @@
 import { useId, useState, type ChangeEvent } from "react";
 import { format, isValid, parse, setHours, setMinutes } from "date-fns";
-import {  DayPicker } from "react-day-picker";
+import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 
 interface ReactdaypickerProps {
     showTime?: boolean;
+    disableToday?: boolean;
 }
 
 
-export function Reactdaypicker({ showTime = true }: ReactdaypickerProps) {
+export function Reactdaypicker({ showTime = true, disableToday = false }: ReactdaypickerProps) {
     const inputId = useId();
     const [month, setMonth] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
@@ -83,6 +84,26 @@ export function Reactdaypicker({ showTime = true }: ReactdaypickerProps) {
     //     );
     // };
 
+    //       const isDateToday = (date: Date): boolean => {
+    //     const today = new Date();
+    //     return date.toDateString() === today.toDateString();
+    //   };
+
+    const redDays = [
+        new Date(2025, 0, 1),   // Nyårsdagen
+        new Date(2025, 3, 18),  // Långfredag (exempelår)
+        new Date(2025, 3, 20),  // Påskdagen
+        new Date(2025, 3, 21),  // Annandag påsk
+        new Date(2025, 4, 1),   // Första maj
+        new Date(2025, 5, 6),   // Sveriges nationaldag
+        new Date(2025, 11, 24), // Julafton
+        new Date(2025, 11, 25), // Juldagen
+        new Date(2025, 11, 26), // Annandag jul
+        new Date(2025, 11, 31), // Nyårsafton
+    ];
+
+
+
     return (
         <div className="flex flex-col items-center">
             <input
@@ -95,11 +116,27 @@ export function Reactdaypicker({ showTime = true }: ReactdaypickerProps) {
             />
             <DayPicker
                 month={month}
+                modifiers={{
+                    holiday: redDays,
+                }}
+                modifiersClassNames={{
+                    holiday: "bg-red-100 text-red-700 font-semibold",
+                }}
                 captionLayout="dropdown"
                 startMonth={new Date(2020, 1)}
                 endMonth={new Date(2030, 1)}
                 onMonthChange={setMonth}
-               
+                //  disabled={disableToday ? (date) => isDateToday(date) : undefined}
+                disabled={
+                    (date) => {
+                        const today = new Date();
+                        const dateOnly = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+                        const todayOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+                        return disableToday && dateOnly <= todayOnly;
+                    }
+                }
+
                 weekStartsOn={1}
                 showWeekNumber
                 classNames={{
@@ -115,7 +152,7 @@ export function Reactdaypicker({ showTime = true }: ReactdaypickerProps) {
                     button_previous: "absolute left-8 top-3 text-gray-600 hover:text-gray-800",
                     month_caption: "flex flex-col items-center justify-between py-2",
                     dropdowns: "flex flex-col items-center justify-between py-2 gap-2",
-                 
+
                 }}
                 mode="single"
                 selected={selectedDate}
