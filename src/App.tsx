@@ -1,4 +1,5 @@
-import { ReactDayPicker } from "./CalendarDayPicker/ReactDayPicker";
+import ReactDayPicker from "./reactdaypicker/ReactDayPicker";
+
 
 
 function App() {
