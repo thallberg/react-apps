@@ -1,14 +1,25 @@
-import { useEffect, useId, useRef, useState, type ChangeEvent } from "react";
-import { format, isValid, parse, setHours, setMinutes } from "date-fns";
+import React, { useEffect, useId, useRef, useState, type ChangeEvent } from "react";
+import { format, isValid, parse, setHours, setMinutes, startOfDay } from "date-fns";
 import { DayPicker } from "react-day-picker";
 import Holidays from "date-holidays";
 import "react-day-picker/style.css";
+import { addDays, startOfToday } from "date-fns";
+ const today = startOfDay();
+
+ export const OnlyFuture: Story = {
+  args: {
+    minDate: addDays(today, 1),
+    maxDate: addDays(today, 30),
+  },
+};
 
 interface ReactdaypickerProps {
     showTime?: boolean;
     showHolidays?: boolean;
     showInput?: boolean;
     countryCode?: string;
+    minDate?: Date;
+    maxDate?: Date;
 }
 
 export function ReactDayPicker({
@@ -16,6 +27,8 @@ export function ReactDayPicker({
     showHolidays = true,
     showInput = true,
     countryCode = "no",
+    minDate,
+    maxDate
 }: ReactdaypickerProps) {
     const inputId = useId();
     const [month, setMonth] = useState(new Date());
@@ -25,6 +38,11 @@ export function ReactDayPicker({
     const formatString = showTime ? "yyyy-MM-dd HH:mm" : "yyyy-MM-dd";
     const containerRef = useRef<HTMLDivElement>(null);
     const [isOpen, setIsOpen] = useState(false);
+
+    const disabledDays = [
+        ...(minDate ? [{ before: minDate }] : []),
+        ...(maxDate ? [{ after: maxDate }] : []),
+    ];
 
     const holidayDates: Date[] = [];
     if (showHolidays && countryCode) {
@@ -130,6 +148,7 @@ export function ReactDayPicker({
                     onMonthChange={setMonth}
                     weekStartsOn={1}
                     showWeekNumber
+                    disabled={disabledDays}
                     classNames={{
                         day: "text-gray-700 hover:bg-blue-100 focus:bg-blue-200",
                         selected: "bg-blue-500 !text-white",
@@ -178,4 +197,3 @@ export function ReactDayPicker({
     );
 }
 
-export default ReactDayPicker;
