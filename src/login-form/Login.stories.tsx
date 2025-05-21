@@ -5,19 +5,24 @@ const meta: Meta<LoginFormProps> = {
   title: 'Forms/LoginForm',
   component: LoginForm,
   args: {
-    usernameLabel: 'Användarnamn',
-    passwordLabel: 'Lösenord',
-    submitLabel: 'Logga in',
+    labelUsername: 'Användarnamn',
+    labelPassword: 'Lösenord',
+    labelSubmit: 'Logga in',
     initialTab: 'Butik',
+    tabs: ['Affärsstöd', 'Verkstad', 'Butik'],
   },
   argTypes: {
-    usernameLabel: { control: 'text', description: 'Etikett för användarnamn' },
-    passwordLabel: { control: 'text', description: 'Etikett för lösenord' },
-    submitLabel: { control: 'text', description: 'Text för login-knapp' },
+    labelUsername: { control: 'text', description: 'Etikett för användarnamn' },
+    labelPassword: { control: 'text', description: 'Etikett för lösenord' },
+    labelSubmit: { control: 'text', description: 'Text för login-knapp' },
     initialTab: {
       control: 'radio',
       options: ['Affärsstöd', 'Verkstad', 'Butik'],
       description: 'Förvalt vald tab',
+    },
+    tabs: {
+      control: 'array',
+      description: 'Lista över flikar',
     },
     onSubmit: { action: 'form submitted' },
   },
@@ -29,18 +34,20 @@ type Story = StoryObj<LoginFormProps>;
 
 export const Primary: Story = {
   args: {
-    usernameLabel: 'Användarnamn',
-    passwordLabel: 'Lösenord',
-    submitLabel: 'Logga in',
+    labelUsername: 'Användarnamn',
+    labelPassword: 'Lösenord',
+    labelSubmit: 'Logga in',
     initialTab: 'Butik',
+    tabs: ['Affärsstöd', 'Verkstad', 'Butik'],
   },
 };
 
 export const Secondary: Story = {
   args: {
-    usernameLabel: 'Username',
-    passwordLabel: 'Password',
-    submitLabel: 'Sign in',
+    labelUsername: 'Username',
+    labelPassword: 'Password',
+    labelSubmit: 'Sign in',
     initialTab: 'Verkstad',
+    tabs: ['Support', 'Repair', 'Store'],
   },
 };

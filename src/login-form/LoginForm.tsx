@@ -1,87 +1,88 @@
 import { useState } from 'react';
+import { Form, Tabs } from "radux-ui";
 import { Button } from '../components/Button';
 import { InputText } from '../components/InputText';
+import Logo from "./Verendus_logo.svg"
 
-const TABS = ["Affärsstöd", "Verkstad", "Butik"] as const;
-type TabType = typeof TABS[number];
+// const TABS = ["Affärsstöd", "Verkstad", "Butik"] as const;
+// type TabType = typeof TABS[number];
 
 export interface LoginFormProps {
+    tabs: string[];
     username?: string;
     password?: string;
-    initialTab?: TabType;
-    onSubmit?: (tabPage: { username: string; password: string; tab: TabType }) => void;
-
-    usernameLabel?: string;
-    passwordLabel?: string;
-    submitLabel?: string;
-
-    usernamePlaceholder?: string;
-    passwordPlaceholder?: string;
+    onSubmit?: (tabPage: { username: string; password: string; tab: string }) => void;
+    onReset?: (identifier: string) => void;
+    initialTab?: string;
+    labelUsername?: string;
+    labelPassword?: string;
+    labelSubmit?: string;
+    spanText?: string;
+    resetLabel?: string;
+    resetSubmit?: string;
 }
 
 export function LoginForm({
+    tabs = ['Affärsstöd', 'Verkstad', 'Butik'],
     username: initialUsername = '',
     password: initialPassword = '',
-    initialTab = 'Butik',
+    labelUsername = 'Användarnamn',
+    labelPassword = 'Lösenord',
+    labelSubmit = 'Logga in',
+    initialTab = 'Affärsstöd',
+    spanText = 'Glömt lösenord?',
+    resetLabel = 'Återställ lösenord',
+    resetSubmit = 'Återställ',
     onSubmit,
-    usernameLabel = 'Användarnamn',
-    passwordLabel = 'Lösenord',
-    submitLabel = 'Logga in',
-    usernamePlaceholder = 'Ange användarnamn',
-    passwordPlaceholder = 'Ange lösenord',
+    onReset,
 }: LoginFormProps) {
-    const [activeTab, setActiveTab] = useState<TabType>(initialTab);
+    const [activeTab, setActiveTab] = useState(initialTab || tabs[0]);
     const [username, setUsername] = useState(initialUsername);
     const [password, setPassword] = useState(initialPassword);
+    const [resetIdentifier, setResetIdentifier] = useState('');
+    const [isOpen, setIsOpen] = useState(false);
 
     const handleSubmit = () => {
-        const tabPage = {
-            username,
-            password,
-            tab: activeTab,
-        };
-        console.log('Login payload:', tabPage);
-        if (onSubmit) {
-            onSubmit(tabPage);
-        }
+        onSubmit?.({ username, password, tab: activeTab });
     };
 
+    const handleOpen = () => setIsOpen(!isOpen);
+
     return (
-        <div className="max-w-md mx-auto p-6 bg-white shadow rounded">
-            <div className="text-center mb-6">Logga</div>
+        <div className="flex flex-col gap-4 w-80 h-auto">
+            <div className="mb-6">
+                <img src={Logo} alt="Logo" className="h-auto w-auto" />
+            </div>
 
             {/* Tabs */}
-            <div className="flex mb-6 border-b">
-                {TABS.map((tab) => (
-                    <button
-                        key={tab}
-                        onClick={() => setActiveTab(tab)}
-                        className={`flex-1 py-2 px-4 text-center transition ${activeTab === tab
-                            ? 'border-b-2 border-blue-500 text-blue-600 font-semibold'
-                            : 'text-gray-500 hover:text-blue-500'
-                            }`}
-                    >
-                        {tab}
-                    </button>
-                ))}
-            </div>
+            <Tabs.Root className="w-full" value={activeTab} onValueChange={setActiveTab}>
+                <Tabs.List className="flex w-full">
+                    {tabs.map((tab) => (
+                        <Tabs.Trigger
+                            key={tab}
+                            value={tab}
+                            className={`px-4 py-2 rounded-lg text-sm font-medium ${activeTab === tab ? 'bg-blue-500 text-white' : 'text-gray-700'}`}
+                        >
+                            {tab}
+                        </Tabs.Trigger>
+                    ))}
+                </Tabs.List>
+            </Tabs.Root>
 
             {/* Inputs */}
             <div className="space-y-4">
-                <label className="block text-sm mb-1">{usernameLabel}</label>
+                <label className="block text-sm mb-1">{labelUsername}</label>
                 <InputText
                     required
-                   placeholder={usernamePlaceholder}
                     minChar={3}
                     maxChar={50}
                     value={username}
                     onChange={setUsername}
                     inputType="text"
                 />
-                <label className="block text-sm mb-1">{passwordLabel}</label>
+                <label className="block text-sm mb-1">{labelPassword}</label>
                 <InputText
                     required
-                    placeholder={passwordPlaceholder}
                     minChar={6}
                     maxChar={128}
                     value={password}
@@ -91,11 +92,29 @@ export function LoginForm({
             </div>
 
             {/* Submit */}
-            <div className="mt-6">
-                <Button onClick={handleSubmit} className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600">
-                    {submitLabel}
-                </Button>
-            </div>
+            <Button onClick={handleSubmit} className="">{labelSubmit}</Button>
+            <span onClick={handleOpen}> {spanText}</span>
+
+            {/* reset Password */}
+
+            {isOpen && (
+
+                <div className="flex flex-col gap-2 mt-4">
+                    <label className="block text-sm mb-1">{resetLabel}</label>
+                    <div>
+                        <InputText
+                            inputType="text"
+                            value={resetIdentifier}
+                            onChange={setResetIdentifier}
+
+                        />
+                        <Button onClick={() => onReset?.(resetIdentifier)} className="">{resetSubmit}</Button>
+                    </div>
+                </div>
+
+            )}
+
+
         </div>
     );
 }
