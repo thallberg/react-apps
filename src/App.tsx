@@ -1,6 +1,4 @@
-import { LoginForm } from "./login-form/LoginForm";
-
-
+import { StatusIconLabel } from "./status-icon-label/StatusIconLabel";
 
 
 function App() {
@@ -8,9 +6,9 @@ function App() {
 
   return (
     <>
-   <LoginForm/>
- 
-   </>
+      <StatusIconLabel label="Example Label" status="yellow" isCompleted={false} />
+
+    </>
   );
 }
 

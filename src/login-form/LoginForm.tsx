@@ -104,7 +104,6 @@ export function LoginForm({
                     <div>
                         <InputText
                             inputType="text"
-                            value={resetIdentifier}
                             onChange={setResetIdentifier}
 
                         />
