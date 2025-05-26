@@ -5,7 +5,9 @@ interface NewsItemProps {
   color: "green" | "red" | "purple" | "blue" | "darkpurple";
   title: string;
   user: string;
+  createdBy: string;
   date: string;
+  time?: string;
   content: string;
   linkContract?: string;
   linkPurchase?: string;
@@ -30,7 +32,9 @@ export function NewsItem({
   color,
   title,
   user,
+  createdBy,
   date,
+  time,
   content,
   linkContract,
   linkPurchase,
@@ -42,9 +46,13 @@ export function NewsItem({
       {/* Vänster sektion */}
       <div className="w-[30%] flex flex-col border-r border-gray-200">
         <div className={colorStyles({ color })}>{title}</div>
-        <div className="p-3 text-sm text-gray-700">
+        <div className="p-3 text-sm text-gray-700 flex flex-col gap-1">
           <p>{user}</p>
-          <p>{date}</p>
+          <div className="text-gray-600">
+            <span>{date}</span>
+            {time && <span> kl. {time}</span>}
+            <span> • Skapad av {createdBy}</span>
+          </div>
         </div>
       </div>
 
