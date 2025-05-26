@@ -1,4 +1,4 @@
-import { StatusIconLabel } from "./status-icon-label/StatusIconLabel";
+import NewsItem from "./status-icon-label/StatusIconLabel";
 
 
 function App() {
@@ -6,8 +6,14 @@ function App() {
 
   return (
     <>
-      <StatusIconLabel label="Example Label" status="yellow" isCompleted={false} />
-
+    <NewsItem
+    color="green"
+    title="Jhon Doe"
+    user="erik"
+    date="2025-05-20"
+    linkContract="hfeihfwefhwef"
+    content="fefeff"
+    />
     </>
   );
 }
